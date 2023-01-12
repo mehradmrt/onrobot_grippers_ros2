@@ -1,40 +1,23 @@
-cmake_minimum_required(VERSION 3.0.2)
+cmake_minimum_required(VERSION 3.5)
 project(onrobot_rg_control)
-find_package(catkin REQUIRED COMPONENTS
-  rospy
-  onrobot_rg_modbus_tcp
-  message_generation
+
+find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_python REQUIRED)
+find_package(rclpy REQUIRED)
+find_package(onrobot_rg_modbus_tcp)
+find_package(onrobot_rg_msgs)
+
+ament_python_install_package(${PROJECT_NAME})
+
+
+# Install Python executables
+# build with `colcon build --symlink-install` to symlink these
+install(PROGRAMS
+  nodes/OnRobotRGSimpleController.py
+  nodes/OnRobotRGStatusListener.py
+  nodes/OnRobotRGTcpNode.py
+  nodes/OnRobotRGSimpleControllerServer.py
+  DESTINATION lib/${PROJECT_NAME}
 )
 
-add_message_files(
-    FILES
-    OnRobotRGInput.msg
-    OnRobotRGOutput.msg
-) 
-
-add_service_files(
-  FILES
-  SetCommand.srv
-)
-
-catkin_python_setup()
-
-generate_messages(
-    DEPENDENCIES
-)
-
-catkin_package(
-    LIBRARIES ${PROJECT_NAME}
-    DEPENDS
-    CATKIN_DEPENDS
-        rospy
-        onrobot_rg_modbus_tcp
-)
-
-catkin_install_python(
-    PROGRAMS
-    nodes/OnRobotRGSimpleController.py
-    nodes/OnRobotRGStatusListener.py
-    nodes/OnRobotRGTcpNode.py
-    nodes/OnRobotRGSimpleControllerServer.py
-    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+ament_package()

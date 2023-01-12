@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import rospy
+import rclpy
 import onrobot_rg_modbus_tcp.comModbusTcp
 import onrobot_rg_control.baseOnRobotRG
 from onrobot_rg_control.msg import OnRobotRGInput
@@ -33,7 +33,7 @@ def mainLoop():
 
         rospy.sleep(0.05)
         # Send the most recent command
-        if not int(format(status.gSTA, '016b')[-1]):  # not busy
+        if not int(format(status.g_sta, '016b')[-1]):  # not busy
             if not prev_msg == gripper.message:       # find new message
                 rospy.loginfo(rospy.get_name()+": Sending message.")
                 gripper.sendCommand()

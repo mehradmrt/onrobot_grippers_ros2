@@ -25,32 +25,32 @@ def statusInterpreter(status):
 
     output = '\n-----\nOnRobot RG status interpreter\n-----\n'
 
-    # gFOF
-    output += 'gFOF = ' + str(status.gFOF) + ': '
-    output += 'Current fingertip offset: ' + str(status.gFOF / 10.0) + ' mm\n'
+    # g_fof
+    output += 'g_fof = ' + str(status.g_fof) + ': '
+    output += 'Current fingertip offset: ' + str(status.g_fof / 10.0) + ' mm\n'
 
-    # gGWD
-    output += 'gGWD = ' + str(status.gGWD) + ': '
+    # g_gwd
+    output += 'g_gwd = ' + str(status.g_gwd) + ': '
     output += 'Current width between the gripper fingers (w/o offset): ' + \
-              str(status.gGWD / 10.0) + ' mm\n'
+              str(status.g_gwd / 10.0) + ' mm\n'
 
-    # gSTA
-    output += 'gSTA = ' + str(status.gSTA) + ': '
-    gSTA16bit = format(status.gSTA, '016b')
-    output += '(gSTA (16 bit) = ' + gSTA16bit + '), Currtent states: '
-    if int(gSTA16bit[-1]):
+    # g_sta
+    output += 'g_sta = ' + str(status.g_sta) + ': '
+    g_sta16bit = format(status.g_sta, '016b')
+    output += '(g_sta (16 bit) = ' + g_sta16bit + '), Currtent states: '
+    if int(g_sta16bit[-1]):
         output += ' A motion is ongoing so new commands are not accepted.'
-    if int(gSTA16bit[-2]):
+    if int(g_sta16bit[-2]):
         output += ' An internal- or external grip is detected.'
-    if int(gSTA16bit[-3]):
+    if int(g_sta16bit[-3]):
         output += ' Safety switch 1 is pushed.'
-    if int(gSTA16bit[-4]):
+    if int(g_sta16bit[-4]):
         output += ' Safety circuit 1 is activated so the gripper cannot move.'
-    if int(gSTA16bit[-5]):
+    if int(g_sta16bit[-5]):
         output += ' Safety switch 2 is pushed.'
-    if int(gSTA16bit[-6]):
+    if int(g_sta16bit[-6]):
         output += ' Safety circuit 2 is activated so the gripper cannot move.'
-    if int(gSTA16bit[-7]):
+    if int(g_sta16bit[-7]):
         output += ' Any of the safety switch is pushed.'
 
     # gWDF

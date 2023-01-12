@@ -1,11 +1,18 @@
-cmake_minimum_required(VERSION 3.0.2)
+cmake_minimum_required(VERSION 3.5)
 project(onrobot_rg_modbus_tcp)
-find_package(catkin REQUIRED COMPONENTS rospy)
 
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
-set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_python REQUIRED)
+find_package(rclpy REQUIRED)
 
-catkin_python_setup()
-catkin_package(
-    CATKIN_DEPENDS rospy 
-)
+ament_python_install_package(${PROJECT_NAME})
+
+
+# Install Python executables
+# build with `colcon build --symlink-install` to symlink these
+#install(PROGRAMS
+#  src/onrobot_rg_modbus_tcp/comModbusTcp.py
+#  DESTINATION lib/${PROJECT_NAME}
+#)
+
+ament_package()

@@ -32,13 +32,13 @@ class onrobotbaseRG:
                 rospy.get_name() +
                 ": Select the gripper type from rg2 or rg6.")
 
-        command.rGFR = max(0, command.rGFR)
-        command.rGFR = min(max_force, command.rGFR)
-        command.rGWD = max(0, command.rGWD)
-        command.rGWD = min(max_width, command.rGWD)
+        command.r_gfr = max(0, command.r_gfr)
+        command.r_gfr = min(max_force, command.r_gfr)
+        command.r_gwd = max(0, command.r_gwd)
+        command.r_gwd = min(max_width, command.r_gwd)
 
         # Verify that the selected mode number is available
-        if command.rCTR not in [1, 8, 16]:
+        if command.r_ctr not in [1, 8, 16]:
             rospy.signal_shutdown(
                 rospy.get_name() +
                 ": Select the mode number from" +
@@ -59,9 +59,9 @@ class onrobotbaseRG:
         self.message = []
 
         # Build the command with each output variable
-        self.message.append(command.rGFR)
-        self.message.append(command.rGWD)
-        self.message.append(command.rCTR)
+        self.message.append(command.r_gfr)
+        self.message.append(command.r_gwd)
+        self.message.append(command.r_ctr)
 
     def sendCommand(self):
         """Sends the command to the Gripper."""
@@ -80,9 +80,9 @@ class onrobotbaseRG:
         message = OnRobotRGInput()
 
         # Assign the values to their respective variables
-        message.gFOF = status[0]
-        message.gGWD = status[9]
-        message.gSTA = status[10]
-        message.gWDF = status[17]
+        message.g_fof = status[0]
+        message.g_gwd = status[9]
+        message.g_sta = status[10]
+        message.g_wdf = status[17]
 
         return message

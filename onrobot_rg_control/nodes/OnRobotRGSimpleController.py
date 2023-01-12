@@ -19,27 +19,27 @@ def genCommand(char, command):
             ": Select the gripper type from rg2 or rg6.")
 
     if char == 'c':
-        command.rGFR = 400
-        command.rGWD = 0
-        command.rCTR = 16
+        command.r_gfr = 400
+        command.r_gwd = 0
+        command.r_ctr = 16
     elif char == 'o':
-        command.rGFR = 400
-        command.rGWD = max_width
-        command.rCTR = 16
+        command.r_gfr = 400
+        command.r_gwd = max_width
+        command.r_ctr = 16
     elif char == 'i':
-        command.rGFR += 25
-        command.rGFR = min(max_force, command.rGFR)
-        command.rCTR = 16
+        command.r_gfr += 25
+        command.r_gfr = min(max_force, command.r_gfr)
+        command.r_ctr = 16
     elif char == 'd':
-        command.rGFR -= 25
-        command.rGFR = max(0, command.rGFR)
-        command.rCTR = 16
+        command.r_gfr -= 25
+        command.r_gfr = max(0, command.r_gfr)
+        command.r_ctr = 16
     else:
-        # If the command entered is a int, assign this value to rGWD
+        # If the command entered is a int, assign this value to r_gwd
         try:
-            command.rGFR = 400
-            command.rGWD = min(max_width, int(char))
-            command.rCTR = 16
+            command.r_gfr = 400
+            command.r_gwd = min(max_width, int(char))
+            command.r_ctr = 16
         except ValueError:
             pass
 
@@ -50,9 +50,9 @@ def askForCommand(command):
     """Asks the user for a command to send to the gripper."""
 
     currentCommand = 'Simple OnRobot RG Controller\n-----\nCurrent command:'
-    currentCommand += ' rGFR = ' + str(command.rGFR)
-    currentCommand += ', rGWD = ' + str(command.rGWD)
-    currentCommand += ', rCTR = ' + str(command.rCTR)
+    currentCommand += ' r_gfr = ' + str(command.r_gfr)
+    currentCommand += ', r_gwd = ' + str(command.r_gwd)
+    currentCommand += ', r_ctr = ' + str(command.r_ctr)
 
     rospy.loginfo(currentCommand)
 

@@ -1,13 +1,13 @@
-# gFOF : Current fingertip offset in 1/10 millimeters. The value is a signed two's complement number.
+# g_fof : Current fingertip offset in 1/10 millimeters. The value is a signed two's complement number.
 
-uint16 gFOF
+uint16 g_fof
 
-# gGWD : Current width between the gripper fingers in 1/10 millimeters.
+# g_gwd : Current width between the gripper fingers in 1/10 millimeters.
 #        The width is provided without any fingertip offset, as it is measured between the insides of the aluminum fingers.
 
-uint16 gGWD
+uint16 g_gwd
 
-# gSTA : Current device status, which indicates the status of the gripper and its motion.
+# g_sta : Current device status, which indicates the status of the gripper and its motion.
 # Bit       - Name              - Description
 # 0 (LSB)   - Busy              - High (1) when a motion is ongoing, low (0) when not. The gripper will only accept new commands when this flag is low.
 # 1         - Grip detected     - High (1) when an internal- or external grip is detected.
@@ -18,9 +18,9 @@ uint16 gGWD
 # 6         - Safety error      - High (1) when on power on any of the safety switch is pushed.
 # 7 - 15    - Reserved          - Not used.
 
-uint8 gSTA
+uint8 g_sta
 
-# gWDF : Current width between the gripper fingers in 1/10 millimeters.
+# g_wdf : Current width between the gripper fingers in 1/10 millimeters.
 #        The set fingertip offset is considered.
 
-uint16 gWDF
+uint16 g_wdf
