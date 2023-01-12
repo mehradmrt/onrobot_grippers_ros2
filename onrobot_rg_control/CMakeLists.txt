@@ -6,9 +6,9 @@ find_package(ament_cmake_python REQUIRED)
 find_package(rclpy REQUIRED)
 find_package(onrobot_rg_modbus_tcp)
 find_package(onrobot_rg_msgs)
+find_package(std_srvs)
 
 ament_python_install_package(${PROJECT_NAME})
-
 
 # Install Python executables
 # build with `colcon build --symlink-install` to symlink these
@@ -17,6 +17,9 @@ install(PROGRAMS
   nodes/OnRobotRGStatusListener.py
   nodes/OnRobotRGTcpNode.py
   nodes/OnRobotRGSimpleControllerServer.py
+  #nodes/DualChanger/OnRobotRGTcpDualNode.py 
+  #nodes/DualChanger/OnRobotRGStatusDualListener.py
+  #nodes/DualChanger/OnRobotRGDualServer.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

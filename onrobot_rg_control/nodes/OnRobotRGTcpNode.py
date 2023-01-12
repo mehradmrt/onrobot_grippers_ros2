@@ -6,7 +6,7 @@ import onrobot_rg_modbus_tcp.comModbusTcp
 from onrobot_rg_control.baseOnRobotRG import OnRobotBaseRG
 from onrobot_rg_msgs.msg import OnRobotRGInput
 from onrobot_rg_msgs.msg import OnRobotRGOutput
-
+from std_srvs.srv import Trigger
 
 class OnRobotRGTcpNode(OnRobotBaseRG):
 
@@ -16,8 +16,8 @@ class OnRobotRGTcpNode(OnRobotBaseRG):
 
         self.ip = self.declare_parameter('/onrobot/ip', '192.168.1.1')
         self.port = self.declare_parameter('/onrobot/port', '502')
+        self.changer_addr = self.declare_parameter('/onrobot/changer_addr', '65')
         self.dummy = self.declare_parameter('/onrobot/dummy', False)
-
         # Gripper is a RG gripper with a Modbus/TCP connection
         self.client = onrobot_rg_modbus_tcp.comModbusTcp.communication(self.dummy)
         self.prev_msg = []
@@ -26,10 +26,16 @@ class OnRobotRGTcpNode(OnRobotBaseRG):
         self.logger = self.get_logger()
 
         # Connects to the ip address received as an argument
-        self.client.connectToDevice(self.ip, self.port)
+        self.client.connectToDevice(self.ip, self.port, self.changer_addr)
 
         # The Gripper status is published on the topic named 'OnRobotRGInput'
         self.pub = self.create_publisher(OnRobotRGInput, 'OnRobotRGInput', 1)
+
+        # The restarting service
+        self.rst_srv = self.create_service(
+            Trigger,
+            "/onrobot_rg/restart_power",
+            self.restartPowerCycle)
 
         timer_period = 3  # seconds
         #timer_period = 0.05  # seconds
@@ -40,6 +46,16 @@ class OnRobotRGTcpNode(OnRobotBaseRG):
             'OnRobotRGOutput',
             self.refreshCommand,
             10)
+
+
+    def restartPowerCycle(self, request):
+        self.getlogger().info("Restarting the power cycle of all grippers connected.")
+        self.gripper.restartPowerCycle()
+        #rospy.sleep(1)
+        return Trigger.Response(
+            success=None,  # TODO: implement
+            message=None)  # TODO: implement
+
 
     def timer_callback(self):
         status = self.getStatus()
@@ -60,4 +76,3 @@ def main(args=None):
 
 if __name__ == '__main__':
     main()
-

@@ -9,12 +9,14 @@ def generate_launch_description():
   ip =        LaunchConfiguration('ip')
   port =      LaunchConfiguration('port')
   gripper =   LaunchConfiguration('gripper')
+  changer_addr =   LaunchConfiguration('changer_addr')
   dummy =     LaunchConfiguration('dummy')
 
   ns_arg =      DeclareLaunchArgument('namespace', default_value='')
   ip_arg =      DeclareLaunchArgument("ip",        default_value="192.168.1.1")
   port_arg =    DeclareLaunchArgument("port",      default_value="502")
   gripper_arg = DeclareLaunchArgument("gripper",   default_value="rg6")
+  changer_addr_arg = DeclareLaunchArgument("changer_addr",   default_value="65")
   dummy_arg =   DeclareLaunchArgument("dummy",     default_value="false")
 
   status = Node(
@@ -36,6 +38,7 @@ def generate_launch_description():
       'ip' : ip,
       'port' : port,
       'gripper' : gripper,
+      'changer_addr':changer_addr,
       'dummy' : dummy,
     }]
   )
@@ -51,5 +54,5 @@ def generate_launch_description():
   )
 
   return LaunchDescription([
-    ns_arg, ip_arg, port_arg, gripper_arg, dummy_arg,
+    ns_arg, ip_arg, port_arg, gripper_arg, changer_addr_arg, dummy_arg,
     status, comms, control])

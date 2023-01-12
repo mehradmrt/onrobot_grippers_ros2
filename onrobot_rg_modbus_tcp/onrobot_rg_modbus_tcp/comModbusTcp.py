@@ -18,7 +18,7 @@ class communication:
         self.lock = threading.Lock()
         self.logger = None
 
-    def connectToDevice(self, ip, port):
+    def connectToDevice(self, ip, port, changer_addr=65):
         """Connects to the client.
            The method takes the IP address and port number
            (as a string, e.g. '192.168.1.1' and '502') as arguments.
@@ -37,6 +37,7 @@ class communication:
             parity='E',
             baudrate=115200,
             timeout=1)
+        self.changer_addr = changer_addr
         self.client.connect()
 
     def disconnectFromDevice(self):
@@ -63,7 +64,20 @@ class communication:
         if message != []:
             with self.lock:
                 self.client.write_registers(
-                    address=0, values=message, unit=65)
+                    address=0, values=message, unit=self.changer_addr)
+
+    def restartPowerCycle(self):
+        """Restarts the power cycle of Compute Box
+           Necessary is Safety Switch of the grippers are pressed
+           Writing 2 to this field powers the tool off for a short amount of time and then powers them back
+        """
+        message = 2
+        restart_address = 63
+
+        # Sending 2 to address 0x0 resets compute box (address 63) power cycle
+        with self.lock:
+                self.client.write_registers(
+                    address=0, values=message, unit=restart_address)
 
     def getStatus(self):
         """Sends a request to read, wait for the response
@@ -80,7 +94,7 @@ class communication:
         # Get status from the device (address 258 ~ 275)
         with self.lock:
             response = self.client.read_holding_registers(
-                address=258, count=18, unit=65).registers
+                address=258, count=18, unit=self.changer_addr).registers
 
         # Output the result
         return response

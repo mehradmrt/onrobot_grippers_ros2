@@ -45,11 +45,11 @@ class OnRobotRGNode(Node):
             rclpy.shutdown()
 
         if char == 'c':
-            command.r_gfr = 400
+            command.r_gfr = max_force
             command.r_gwd = 0
             command.r_ctr = 16
         elif char == 'o':
-            command.r_gfr = 400
+            command.r_gfr = max_force
             command.r_gwd = max_width
             command.r_ctr = 16
         elif char == 'i':
@@ -63,7 +63,7 @@ class OnRobotRGNode(Node):
         else:
             # If the command entered is a int, assign this value to r_gwd
             try:
-                command.r_gfr = 400
+                command.r_gfr = max_force
                 command.r_gwd = min(max_width, int(char))
                 command.r_ctr = 16
             except ValueError:
