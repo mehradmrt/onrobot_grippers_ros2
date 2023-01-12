@@ -1,52 +1,63 @@
 #!/usr/bin/env python3
 
 import rclpy
+from rclpy.node import Node
 import onrobot_rg_modbus_tcp.comModbusTcp
-import onrobot_rg_control.baseOnRobotRG
-from onrobot_rg_control.msg import OnRobotRGInput
-from onrobot_rg_control.msg import OnRobotRGOutput
+from onrobot_rg_control.baseOnRobotRG import OnRobotBaseRG
+from onrobot_rg_msgs.msg import OnRobotRGInput
+from onrobot_rg_msgs.msg import OnRobotRGOutput
 
 
-def mainLoop():
-    # Gripper is a RG gripper with a Modbus/TCP connection
-    gripper = onrobot_rg_control.baseOnRobotRG.onrobotbaseRG(gtype)
-    gripper.client = onrobot_rg_modbus_tcp.comModbusTcp.communication(dummy)
+class OnRobotRGTcpNode(OnRobotBaseRG):
 
-    # Connects to the ip address received as an argument
-    gripper.client.connectToDevice(ip, port)
-    rospy.init_node('OnRobotRGTcpNode', log_level=rospy.DEBUG)
+    def __init__(self):
+        # init the node and fetch some params
+        super().__init__('OnRobotRGTcpNode')
 
-    # The Gripper status is published on the topic named 'OnRobotRGInput'
-    pub = rospy.Publisher('OnRobotRGInput', OnRobotRGInput, queue_size=1)
+        self.ip = self.declare_parameter('/onrobot/ip', '192.168.1.1')
+        self.port = self.declare_parameter('/onrobot/port', '502')
+        self.dummy = self.declare_parameter('/onrobot/dummy', False)
 
-    # The Gripper command is received from the topic named 'OnRobotRGOutput'
-    rospy.Subscriber('OnRobotRGOutput',
-                     OnRobotRGOutput,
-                     gripper.refreshCommand)
+        # Gripper is a RG gripper with a Modbus/TCP connection
+        self.client = onrobot_rg_modbus_tcp.comModbusTcp.communication(self.dummy)
+        self.prev_msg = []
 
-    # We loop
-    prev_msg = []
-    while not rospy.is_shutdown():
-        # Get and publish the Gripper status
-        status = gripper.getStatus()
-        pub.publish(status)
+        # the communication lib needs access to the node's logger
+        self.logger = self.get_logger()
 
-        rospy.sleep(0.05)
+        # Connects to the ip address received as an argument
+        self.client.connectToDevice(self.ip, self.port)
+
+        # The Gripper status is published on the topic named 'OnRobotRGInput'
+        self.pub = self.create_publisher(OnRobotRGInput, 'OnRobotRGInput', 1)
+
+        timer_period = 3  # seconds
+        #timer_period = 0.05  # seconds
+        self.timer = self.create_timer(timer_period, self.timer_callback)
+        # The Gripper command is received from the topic named 'OnRobotRGOutput'
+        self.sub = self.create_subscription(
+            OnRobotRGOutput,
+            'OnRobotRGOutput',
+            self.refreshCommand,
+            10)
+
+    def timer_callback(self):
+        status = self.getStatus()
+        self.pub.publish(status)
+
         # Send the most recent command
         if not int(format(status.g_sta, '016b')[-1]):  # not busy
-            if not prev_msg == gripper.message:       # find new message
-                rospy.loginfo(rospy.get_name()+": Sending message.")
-                gripper.sendCommand()
-        prev_msg = gripper.message
-        rospy.sleep(0.05)
+            if not self.prev_msg == self.message:       # find new message
+                self.get_logger().info(self.get_name()+": Sending message.")
+                self.sendCommand()
+        self.prev_msg = self.message
 
+def main(args=None):
+    rclpy.init(args=args)
+    node = OnRobotRGTcpNode()
+    rclpy.spin(node)
+    rclpy.shutdown()
 
 if __name__ == '__main__':
-    try:
-        ip = rospy.get_param('/onrobot/ip', '192.168.1.1')
-        port = rospy.get_param('/onrobot/port', '502')
-        gtype = rospy.get_param('/onrobot/gripper', 'rg6')
-        dummy = rospy.get_param('/onrobot/dummy', False)
-        mainLoop()
-    except rospy.ROSInterruptException:
-        pass
+    main()
+

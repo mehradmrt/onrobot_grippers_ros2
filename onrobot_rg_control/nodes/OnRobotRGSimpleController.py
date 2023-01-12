@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import rospy
-from onrobot_rg_control.msg import OnRobotRGOutput
+from onrobot_rg_msgs.msg import OnRobotRGOutput
 
 
 def genCommand(char, command):
@@ -84,5 +84,17 @@ def publisher():
 
 
 if __name__ == '__main__':
-    gtype = rospy.get_param('/onrobot/gripper', 'rg6')
+    gtype = rospy.declare_parameter('/onrobot/gripper', 'rg6')
     publisher()
+
+
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = OnRobotRGStatusListener()
+    rclpy.spin(node)
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+

@@ -5,7 +5,7 @@ OnRobot Grippers using the Modbus/TCP protocol.
 """
 
 import sys
-import rospy
+import rclpy
 import threading
 from pymodbus.client.sync import ModbusTcpClient
 
@@ -16,6 +16,7 @@ class communication:
         self.client = None
         self.dummy = dummy
         self.lock = threading.Lock()
+        self.logger = None
 
     def connectToDevice(self, ip, port):
         """Connects to the client.
@@ -23,10 +24,9 @@ class communication:
            (as a string, e.g. '192.168.1.1' and '502') as arguments.
         """
         if self.dummy:
-            rospy.loginfo(
-                rospy.get_name() +
-                ": " +
-                sys._getframe().f_code.co_name)
+            if self.logger:
+                self.logger.info(
+                    sys._getframe().f_code.co_name)
             return
 
         self.client = ModbusTcpClient(
@@ -42,10 +42,9 @@ class communication:
     def disconnectFromDevice(self):
         """Closes connection."""
         if self.dummy:
-            rospy.loginfo(
-                rospy.get_name() +
-                ": " +
-                sys._getframe().f_code.co_name)
+            if self.logger:
+                self.logger.info(
+                    sys._getframe().f_code.co_name)
             return
 
         self.client.close()
@@ -55,10 +54,9 @@ class communication:
            The method takes a list of uint8 as an argument.
         """
         if self.dummy:
-            rospy.loginfo(
-                rospy.get_name() +
-                ": " +
-                sys._getframe().f_code.co_name)
+            if self.logger:
+                self.logger.info(
+                    sys._getframe().f_code.co_name)
             return
 
         # Send a command to the device (address 0 ~ 2)
@@ -74,10 +72,9 @@ class communication:
         """
         response = [0] * 18
         if self.dummy:
-            rospy.loginfo(
-                rospy.get_name() +
-                ": " +
-                sys._getframe().f_code.co_name)
+            if self.logger:
+                self.logger.info(
+                    sys._getframe().f_code.co_name)
             return response
 
         # Get status from the device (address 258 ~ 275)

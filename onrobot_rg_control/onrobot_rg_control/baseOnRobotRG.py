@@ -1,17 +1,20 @@
 #!/usr/bin/env python3
 
-import rospy
-from onrobot_rg_control.msg import OnRobotRGInput
+import rclpy
+from rclpy.node import Node
+from onrobot_rg_msgs.msg import OnRobotRGInput
 
 
-class onrobotbaseRG:
+class OnRobotBaseRG(Node):
     """Base class (communication protocol agnostic) for sending commands
        and receiving the status of the OnRobot RG gripper.
     """
 
-    def __init__(self, gtype):
+    def __init__(self, node_name="onrobotbaseRG"):
         # Initiate output message as an empty list
-        self.gtype = gtype
+        super().__init__(node_name)
+
+        self.gtype = self.declare_parameter('/onrobot/gripper', 'rg6')
         self.message = []
 
         # Note: after the instantiation,
@@ -28,9 +31,10 @@ class onrobotbaseRG:
             max_force = 1200
             max_width = 1600
         else:
-            rospy.signal_shutdown(
-                rospy.get_name() +
+            self.get_logger().error(
+                self.get_name() +
                 ": Select the gripper type from rg2 or rg6.")
+            rclpy.shutdown()
 
         command.r_gfr = max(0, command.r_gfr)
         command.r_gfr = min(max_force, command.r_gfr)
@@ -39,8 +43,8 @@ class onrobotbaseRG:
 
         # Verify that the selected mode number is available
         if command.r_ctr not in [1, 8, 16]:
-            rospy.signal_shutdown(
-                rospy.get_name() +
+            self.get_logger(
+                self.get_name() +
                 ": Select the mode number from" +
                 "1 (grip), 8 (stop), or 16 (grip_w_offset).")
 
@@ -49,7 +53,7 @@ class onrobotbaseRG:
 
     def refreshCommand(self, command):
         """Updates the command which will be sent
-           during the next sendCommand() call.
+            during the next sendCommand() call.
         """
 
         # Limit the value of each variable
@@ -70,7 +74,7 @@ class onrobotbaseRG:
 
     def getStatus(self):
         """Requests the status from the gripper and
-           return it in the OnRobotRGInput msg type.
+            return it in the OnRobotRGInput msg type.
         """
 
         # Acquire status from the Gripper
