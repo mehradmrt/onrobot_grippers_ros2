@@ -189,6 +189,15 @@
     <xacro:inner_finger prefix="${prefix}" fingerprefix="${fingerprefix}"/>
   </xacro:macro>
 
+  <xacro:macro name="grip_target_frame" params="prefix">
+    <joint name="${prefix}grip_target_frame_joint" type="fixed">
+      <origin xyz="0 0 0.25" rpy="0 0 0" />
+      <parent link="${prefix}onrobot_rg6_base_link" />
+      <child link="${prefix}grip_target_frame" />
+    </joint>
+    <link name="${prefix}grip_target_frame"/>
+  </xacro:macro>
+
   <xacro:macro name="onrobot_rg6" params="prefix">
     <xacro:onrobot_rg6_base_link prefix="${prefix}"/>
     <xacro:finger_links prefix="${prefix}" fingerprefix="left"/>
@@ -197,5 +206,6 @@
     <xacro:right_outer_knuckle_joint prefix="${prefix}"/>
     <xacro:onrobot_rg6_transmission prefix="${prefix}"/>
     <xacro:onrobot_rg6_gazebo prefix="${prefix}"/>
+    <xacro:grip_target_frame prefix="${prefix}"/>
   </xacro:macro>
 </robot>
