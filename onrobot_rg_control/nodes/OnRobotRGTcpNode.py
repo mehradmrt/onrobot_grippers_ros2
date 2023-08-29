@@ -26,7 +26,10 @@ class OnRobotRGTcpNode(OnRobotBaseRG):
         self.logger = self.get_logger()
 
         # Connects to the ip address received as an argument
-        self.client.connectToDevice(self.ip, self.port, self.changer_addr)
+        if not self.client.connectToDevice(self.ip, self.port, self.changer_addr):
+            self.getlogger().error("Could not connect to device")
+            # XXX Just crash out here
+
 
         # The Gripper status is published on the topic named 'OnRobotRGInput'
         self.pub = self.create_publisher(OnRobotRGInput, 'OnRobotRGInput', 1)

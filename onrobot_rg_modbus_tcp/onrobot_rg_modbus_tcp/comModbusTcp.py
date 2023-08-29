@@ -38,7 +38,7 @@ class communication:
             baudrate=115200,
             timeout=1)
         self.changer_addr = changer_addr
-        self.client.connect()
+        return self.client.connect()
 
     def disconnectFromDevice(self):
         """Closes connection."""
