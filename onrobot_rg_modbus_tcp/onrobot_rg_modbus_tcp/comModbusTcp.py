@@ -27,10 +27,10 @@ class communication:
             if self.logger:
                 self.logger.info(
                     sys._getframe().f_code.co_name)
-            return
+            return True
 
         self.client = ModbusTcpClient(
-            ip,
+            host=ip,
             port=port,
             stopbits=1,
             bytesize=8,

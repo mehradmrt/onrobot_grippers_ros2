@@ -14,10 +14,10 @@ class OnRobotRGTcpNode(OnRobotBaseRG):
         # init the node and fetch some params
         super().__init__('OnRobotRGTcpNode')
 
-        self.ip = self.declare_parameter('/onrobot/ip', '192.168.1.1')
-        self.port = self.declare_parameter('/onrobot/port', '502')
-        self.changer_addr = self.declare_parameter('/onrobot/changer_addr', '65')
-        self.dummy = self.declare_parameter('/onrobot/dummy', False)
+        self.ip = self.declare_parameter('/onrobot/ip', '192.168.1.1').get_parameter_value().string_value
+        self.port = self.declare_parameter('/onrobot/port', '502').get_parameter_value().string_value
+        self.changer_addr = self.declare_parameter('/onrobot/changer_addr', '65').get_parameter_value().string_value
+        self.dummy = self.declare_parameter('/onrobot/dummy', False).get_parameter_value().bool_value
         # Gripper is a RG gripper with a Modbus/TCP connection
         self.client = onrobot_rg_modbus_tcp.comModbusTcp.communication(self.dummy)
         self.prev_msg = []
@@ -27,7 +27,7 @@ class OnRobotRGTcpNode(OnRobotBaseRG):
 
         # Connects to the ip address received as an argument
         if not self.client.connectToDevice(self.ip, self.port, self.changer_addr):
-            self.getlogger().error("Could not connect to device")
+            self.get_logger().error("Could not connect to device")
             # XXX Just crash out here
 
 
@@ -52,7 +52,7 @@ class OnRobotRGTcpNode(OnRobotBaseRG):
 
 
     def restartPowerCycle(self, request):
-        self.getlogger().info("Restarting the power cycle of all grippers connected.")
+        self.get_logger().info("Restarting the power cycle of all grippers connected.")
         self.gripper.restartPowerCycle()
         #rospy.sleep(1)
         return Trigger.Response(
