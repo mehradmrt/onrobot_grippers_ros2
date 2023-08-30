@@ -18,7 +18,7 @@ class communication:
         self.lock = threading.Lock()
         self.logger = None
 
-    def connectToDevice(self, ip, port, changer_addr=65):
+    def connectToDevice(self, ip: str, port: str, changer_addr: int = 65) -> bool:
         """Connects to the client.
            The method takes the IP address and port number
            (as a string, e.g. '192.168.1.1' and '502') as arguments.

@@ -16,7 +16,7 @@ class OnRobotRGTcpNode(OnRobotBaseRG):
 
         self.ip = self.declare_parameter('/onrobot/ip', '192.168.1.1').get_parameter_value().string_value
         self.port = self.declare_parameter('/onrobot/port', '502').get_parameter_value().string_value
-        self.changer_addr = self.declare_parameter('/onrobot/changer_addr', '65').get_parameter_value().string_value
+        self.changer_addr = self.declare_parameter('/onrobot/changer_addr', 65).get_parameter_value().integer_value
         self.dummy = self.declare_parameter('/onrobot/dummy', False).get_parameter_value().bool_value
         # Gripper is a RG gripper with a Modbus/TCP connection
         self.client = onrobot_rg_modbus_tcp.comModbusTcp.communication(self.dummy)
