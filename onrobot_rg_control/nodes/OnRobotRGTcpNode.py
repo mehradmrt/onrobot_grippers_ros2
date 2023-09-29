@@ -40,8 +40,8 @@ class OnRobotRGTcpNode(OnRobotBaseRG):
             "/onrobot_rg/restart_power",
             self.restartPowerCycle)
 
-        timer_period = 3  # seconds
-        #timer_period = 0.05  # seconds
+        
+        timer_period = 0.1  # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
         # The Gripper command is received from the topic named 'OnRobotRGOutput'
         self.sub = self.create_subscription(

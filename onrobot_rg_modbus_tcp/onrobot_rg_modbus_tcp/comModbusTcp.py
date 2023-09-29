@@ -8,7 +8,9 @@ import sys
 import rclpy
 import threading
 from pymodbus.client.sync import ModbusTcpClient
-
+#from pymodbus.client.sync import ModbusSerialClient
+from pymodbus.register_read_message import ReadHoldingRegistersResponse
+import time
 
 class communication:
 
@@ -94,7 +96,17 @@ class communication:
         # Get status from the device (address 258 ~ 275)
         with self.lock:
             response = self.client.read_holding_registers(
-                address=258, count=18, unit=self.changer_addr).registers
+                address=258, count=18, unit=self.changer_addr)
+            retries = 50
+            # To get around spuratic - object has no attribute 'registers'
+            while not isinstance(response, ReadHoldingRegistersResponse):
+                response = self.client.read_holding_registers(
+                    address=258, count=18, unit=self.changer_addr)
+                retries -= 1
+                time.sleep(0.01)
+                if retries <= 0: raise TypeError("Failed to get status after 50 tries") 
+              #except TypeError as e:
+              #print(e)
 
         # Output the result
-        return response
+        return response.registers
