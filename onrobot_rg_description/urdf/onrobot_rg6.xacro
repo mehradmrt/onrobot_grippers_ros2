@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:macro name="onrobot_rg2_base_link" params="prefix">
-    <link name="${prefix}onrobot_rg2_base_link">
+  <xacro:macro name="onrobot_rg6_base_link" params="prefix">
+    <link name="${prefix}onrobot_rg6_base_link">
       <inertial>
         <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
         <mass value="0.7" />
@@ -10,7 +10,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://onrobot_rg_description/meshes/rg2/visual/base_link.stl" />
+          <mesh filename="package://onrobot_rg_description/meshes/rg6/visual/base_link.stl" />
         </geometry>
         <material name="">
           <color rgba="0.8 0.8 0.8 1" />
@@ -19,23 +19,23 @@
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://onrobot_rg_description/meshes/rg2/collision/base_link.stl" />
+          <mesh filename="package://onrobot_rg_description/meshes/rg6/collision/base_link.stl" />
         </geometry>
       </collision>
     </link>
 
-    <!-- <link name="flange"/>
-    <joint name="rg2_TM_joint" type="fixed">
-        <parent link="flange"/>
-        <child link="${prefix}onrobot_rg2_base_link"/>
+    <link name="world"/>
+    <joint name="joint0" type="fixed">
+        <parent link="world"/>
+        <child link="${prefix}onrobot_rg6_base_link"/>
         <origin xyz= "0. 0. 0." rpy="0. 0. 0." />
     </joint>
-    <gazebo reference="${prefix}onrobot_rg2_base_link">
+    <gazebo reference="${prefix}onrobot_rg6_base_link">
       <mu1>1.0</mu1>
       <mu2>1.0</mu2>
       <selfCollide>false</selfCollide>
       <material>Gazebo/White</material>
-    </gazebo> -->
+    </gazebo>
   </xacro:macro>
 
   <xacro:macro name="finger_joints" params="prefix fingerprefix reflect">

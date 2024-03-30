@@ -14,7 +14,7 @@ class OnRobotBaseRG(Node):
         # Initiate output message as an empty list
         super().__init__(node_name)
 
-        self.gtype = self.declare_parameter('/onrobot/gripper', 'rg6').get_parameter_value().string_value
+        self.gtype = self.declare_parameter('/onrobot/gripper', 'rg2').get_parameter_value().string_value
         self.message = []
 
         # Note: after the instantiation,

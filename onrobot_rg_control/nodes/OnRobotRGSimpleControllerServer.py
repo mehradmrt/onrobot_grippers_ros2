@@ -10,7 +10,7 @@ class OnRobotRGNode(Node):
     """Class to handle setting commands."""
     def __init__(self):
         super().__init__('OnRobotRGSimpleControllerServer')
-        self.gtype = self.declare_parameter('/onrobot/gripper', 'rg6')
+        self.gtype = self.declare_parameter('/onrobot/gripper', 'rg2')
 
         self.pub = self.create_publisher(OnRobotRGOutput, 'OnRobotRGOutput', 1)
         self.command = OnRobotRGOutput()

@@ -7,13 +7,12 @@ from onrobot_rg_msgs.msg import OnRobotRGOutput
 class OnRobotRGSimpleController(Node):
     def __init__(self):
         super().__init__('OnRobotRGSimpleController')
-        self.gtype = self.declare_parameter('/onrobot/gripper', 'rg6').get_parameter_value().string_value
+        self.gtype = self.declare_parameter('/onrobot/gripper', 'rg2').get_parameter_value().string_value
         self.get_logger().info(self.get_name() + " Using gripper type " + self.gtype)
 
         self.pub = self.create_publisher(OnRobotRGOutput, 'OnRobotRGOutput', 1)
         self.timer = self.create_timer(0.1, self.timer_callback)
         self.command = OnRobotRGOutput()
-
 
     def genCommand(self, char):
         """Updates the command according to the character entered by the user."""
@@ -73,7 +72,6 @@ class OnRobotRGSimpleController(Node):
         strAskForCommand += '-->'
 
         return input(strAskForCommand)
-
 
     def timer_callback(self):
         """Main loop which requests new commands and

@@ -1,16 +1,24 @@
 <?xml version="1.0"?>
 <package format="3">
   <name>onrobot_rg_description</name>
-  <version>1.0.0</version>
-  <description>OnRobot RG model description package</description>
+  <version>2.0.0</version>
+  <description>OnRobot RG model description package on ROS2</description>
   <license>MIT</license>
   <author email="taku8926@gmail.com">Takuya Kiyokawa</author>
   <maintainer email="taku8926@gmail.com">Takuya Kiyokawa</maintainer>
-
+  <maintainer email="smortazavi3@ucmerced.edu">Mehrad Mortazavi</maintainer>
+  
   <buildtool_depend>ament_cmake</buildtool_depend>
-  <exec_depend>urdf</exec_depend>
+  <exec_depend>joint_state_publisher_gui</exec_depend>
+  <exec_depend>joint_state_publisher</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+  
+  <exec_depend>rviz2</exec_depend>
+  <exec_depend>xacro</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>
   </export>
 </package>
+
