@@ -36,8 +36,8 @@ colcon build
 #### Send motion commands
 ##### Interactive mode
 ```
-ros2 launch onrobot2_rg_control bringup.launch.py
-ros2 run onrobot2_rg_control OnRobotRGSimpleController.py
+ros2 launch onrobot_rg_control bringup.launch.py
+ros2 run onrobot_rg_control OnRobotRGSimpleController.py
 ```
 
 ##### ROS service call
