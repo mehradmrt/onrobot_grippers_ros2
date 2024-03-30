@@ -4,7 +4,7 @@ This package contains the URDF files describing OnRobot two-fingered grippers (R
 Use the following to see the model in rviz:
 
 ```
-ros2 launch onrobot2_rg_control bringup.launch.py
+ros2 launch onrobot_rg_control bringup.launch.py
 ```
 
 ## Visual and Collision models
