@@ -53,11 +53,10 @@ ros2 launch onrobot_rg_description rg2.launch.py
 
 [Takuya Kiyokawa](https://github.com/takuya-ki)
 
-
 ##  Other contributors
 
 [Roberto Mendivil C](https://github.com/Robertomendivil97)
-[BrettRD/onrobot_grippers](https://github.com/BrettRD/onrobot_grippers)
+[BrettRD](https://github.com/BrettRD/onrobot_grippers)
 
 ##  Current contributor
 
