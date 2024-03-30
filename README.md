@@ -29,7 +29,7 @@ colcon build
 1. Connect the cable between Compute Box and Tool Changer
 2. Connect an ethernet cable between Compute Box and your computer
 3. Execute programs (Please refer to [onrobot/Tutorials](http://wiki.ros.org/onrobot/Tutorials))
-4. Adjust the ip address parameter based on your computer box ip address. Currently is set to 192.168.0.15 @ 502
+4. Adjust the ip address parameter based on your computer box ip address. Currently is set to: 192.168.0.15:502
 
 ### RG2 / RG6
 
