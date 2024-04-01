@@ -7,6 +7,7 @@ find_package(rclpy REQUIRED)
 find_package(onrobot_rg_modbus_tcp)
 find_package(onrobot_rg_msgs)
 find_package(std_srvs)
+find_package(sensor_msgs REQUIRED)
 
 ament_python_install_package(${PROJECT_NAME})
 
@@ -17,6 +18,7 @@ install(PROGRAMS
   nodes/OnRobotRGStatusListener.py
   nodes/OnRobotRGTcpNode.py
   nodes/OnRobotRGSimpleControllerServer.py
+  nodes/Rg2JointStatePub.py
   #nodes/DualChanger/OnRobotRGTcpDualNode.py 
   #nodes/DualChanger/OnRobotRGStatusDualListener.py
   #nodes/DualChanger/OnRobotRGDualServer.py

@@ -29,12 +29,12 @@ class OnRobotRGSimpleController(Node):
             rclpy.shutdown()
 
         if char == 'c':
-            self.command.r_gfr = 400
-            self.command.r_gwd = 0
+            self.command.r_gfr = 50 #400
+            self.command.r_gwd = 10
             self.command.r_ctr = 16
         elif char == 'o':
-            self.command.r_gfr = 400
-            self.command.r_gwd = max_width
+            self.command.r_gfr = 50 #400
+            self.command.r_gwd = 600 # max_width
             self.command.r_ctr = 16
         elif char == 'i':
             self.command.r_gfr = min(max_force, self.command.r_gfr + 25)
@@ -45,7 +45,7 @@ class OnRobotRGSimpleController(Node):
         else:
             # If the command entered is a int, assign this value to r_gwd
             try:
-                self.command.r_gfr = 400
+                self.command.r_gfr = 50 #400
                 self.command.r_gwd = min(max_width, int(char))
                 self.command.r_ctr = 16
             except ValueError:
@@ -79,8 +79,6 @@ class OnRobotRGSimpleController(Node):
         """
         self.genCommand(self.askForCommand())
         self.pub.publish(self.command)
-
-
 
 def main(args=None):
     rclpy.init(args=args)

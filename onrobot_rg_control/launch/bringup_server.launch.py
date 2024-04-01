@@ -53,6 +53,18 @@ def generate_launch_description():
     }]
   )
 
+  # joint_publisher = Node(
+  #   name='RG2JointPublisher',
+  #   package='onrobot_rg_control',
+  #   namespace=namespace,
+  #   executable='Rg2JointStatePub.py',
+  #   parameters=[{
+  #   }]
+  # ) # not integrated at the moment
+
   return LaunchDescription([
     ns_arg, ip_arg, port_arg, gripper_arg, changer_addr_arg, dummy_arg,
-    status, comms, control])
+    # status,
+    comms, control,
+    # joint_publisher,
+    ])

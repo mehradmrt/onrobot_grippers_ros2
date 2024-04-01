@@ -10,7 +10,7 @@ class OnRobotRGNode(Node):
     """Class to handle setting commands."""
     def __init__(self):
         super().__init__('OnRobotRGSimpleControllerServer')
-        self.gtype = self.declare_parameter('/onrobot/gripper', 'rg2')
+        self.gtype = self.declare_parameter('/onrobot/gripper', 'rg2').get_parameter_value().string_value
 
         self.pub = self.create_publisher(OnRobotRGOutput, 'OnRobotRGOutput', 1)
         self.command = OnRobotRGOutput()
@@ -19,15 +19,15 @@ class OnRobotRGNode(Node):
             "/onrobot_rg/set_command",
             self.handle_set_command)
 
-    def handle_set_command(self, req):
+    def handle_set_command(self, request, response):
         """To handle sending commands via socket connection."""
-        self.get_logger().info(str(req.command))
-        self.command = self.genCommand(str(req.command), self.command)
+        self.get_logger().info(str(request.command))
+        self.command = self.genCommand(str(request.command), self.command)
         self.pub.publish(self.command)
-        #rospy.sleep(1)
-        return SetCommand.Response(
-            success=None,  # TODO: implement
-            message=None)  # TODO: implement
+
+        response.success = True 
+        response.message = 'Request was successfully completed'
+        return response
 
     def genCommand(self, char, command):
         """Updates the command according to the character entered by the user."""
@@ -45,12 +45,12 @@ class OnRobotRGNode(Node):
             rclpy.shutdown()
 
         if char == 'c':
-            command.r_gfr = max_force
-            command.r_gwd = 0
+            command.r_gfr = 50 #max_force
+            command.r_gwd = 10
             command.r_ctr = 16
         elif char == 'o':
-            command.r_gfr = max_force
-            command.r_gwd = max_width
+            command.r_gfr = 50 #max_force
+            command.r_gwd = 550 #max_width
             command.r_ctr = 16
         elif char == 'i':
             command.r_gfr += 25
