@@ -104,7 +104,7 @@
   </xacro:macro>
 
   <xacro:macro name="inner_knuckle_joint" params="prefix fingerprefix reflect">
-    <joint name="${prefix}${fingerprefix}_inner_knuckle_joint" type="revolute">
+    <joint name="${prefix}${fingerprefix}_inner_knuckle_joint" type="fixed">
       <origin xyz="0 ${reflect * -0.007678} 0.1422970" rpy="0 0 ${(reflect - 1) * pi / 2}" />
       <parent link="${prefix}onrobot_rg2_base_link" />
       <child link="${prefix}${fingerprefix}_inner_knuckle" />
@@ -115,7 +115,7 @@
   </xacro:macro>
 
   <xacro:macro name="inner_finger_joint" params="prefix fingerprefix">
-    <joint name="${prefix}${fingerprefix}_inner_finger_joint" type="revolute">
+    <joint name="${prefix}${fingerprefix}_inner_finger_joint" type="fixed">
       <origin xyz="0 ${-(0.056770-0.017178)} ${0.163974-0.125797}" rpy="0 0 0" />
       <parent link="${prefix}${fingerprefix}_outer_knuckle" />
       <child link="${prefix}${fingerprefix}_inner_finger" />
@@ -128,7 +128,7 @@
   <xacro:include filename="$(find onrobot_rg_description)/urdf/onrobot_rg2.xacro" />
 
   <xacro:macro name="finger_joint" params="prefix">
-    <joint name="${prefix}finger_joint" type="revolute">
+    <joint name="${prefix}finger_joint" type="fixed">
       <origin xyz="0 -0.017178 0.125797" rpy="0 0 0" />
       <parent link="${prefix}onrobot_rg2_base_link" />
       <child link="${prefix}left_outer_knuckle" />
@@ -139,7 +139,7 @@
   </xacro:macro>
 
   <xacro:macro name="right_outer_knuckle_joint" params="prefix">
-    <joint name="${prefix}right_outer_knuckle_joint" type="revolute">
+    <joint name="${prefix}right_outer_knuckle_joint" type="fixed">
       <origin xyz="0 0.017178 0.125797" rpy="0 0 ${pi}" />
       <parent link="${prefix}onrobot_rg2_base_link" />
       <child link="${prefix}right_outer_knuckle" />

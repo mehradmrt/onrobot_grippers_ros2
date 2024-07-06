@@ -45,12 +45,12 @@ class OnRobotRGNode(Node):
             rclpy.shutdown()
 
         if char == 'c':
-            command.r_gfr = 50 #max_force
+            command.r_gfr = 150 #max_force
             command.r_gwd = 10
             command.r_ctr = 16
         elif char == 'o':
-            command.r_gfr = 50 #max_force
-            command.r_gwd = 550 #max_width
+            command.r_gfr = 150 #max_force
+            command.r_gwd = 750 #max_width
             command.r_ctr = 16
         elif char == 'i':
             command.r_gfr += 25
