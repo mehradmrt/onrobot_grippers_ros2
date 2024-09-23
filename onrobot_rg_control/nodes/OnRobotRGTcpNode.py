@@ -14,7 +14,7 @@ class OnRobotRGTcpNode(OnRobotBaseRG):
         # init the node and fetch some params
         super().__init__('OnRobotRGTcpNode')
 
-        self.ip = self.declare_parameter('/onrobot/ip', '192.168.0.15').get_parameter_value().string_value
+        self.ip = self.declare_parameter('/onrobot/ip', '192.168.1.15').get_parameter_value().string_value
         self.port = self.declare_parameter('/onrobot/port', '502').get_parameter_value().string_value
         self.changer_addr = self.declare_parameter('/onrobot/changer_addr', 65).get_parameter_value().integer_value
         self.dummy = self.declare_parameter('/onrobot/dummy', False).get_parameter_value().bool_value
